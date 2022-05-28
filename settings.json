@@ -13,5 +13,6 @@
     "PageDown": 3,
     "pageSize": 400,
     "currentPage": 1,
-    "clearConsole": true
+    "clearConsole": true,
+    "showPercent": true
 }

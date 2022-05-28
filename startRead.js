@@ -85,7 +85,12 @@ r1.question(`选择你要阅读的书籍（输入书名前的数字）：`, num 
         let flag = true
         console.log(bookDataLines[his.currentPage - 1])
         while (flag) {
-            let input = readlineSync.question(`${((his.currentPage-1)/bookDataLines.length*100).toFixed(2)+'%'}; ${settings.PageUp}:Page Up; ${settings.PageDown}:Page Down\n`, { encoding: 'utf-8' })
+            let input
+            if(settings.showPercent){
+                input = readlineSync.question(`${((his.currentPage-1)/bookDataLines.length*100).toFixed(2)+'%'}; ${settings.PageUp}:Page Up; ${settings.PageDown}:Page Down\n`, { encoding: 'utf-8' })
+            }else{
+                input = readlineSync.question(`${his.currentPage}/${bookDataLines.length}; ${settings.PageUp}:Page Up; ${settings.PageDown}:Page Down\n`, { encoding: 'utf-8' })
+            }
             let originPage = his.currentPage
             if (input.toLowerCase() == settings.PageUp) {
                 his.currentPage > 1 ? his.currentPage -= 1 : console.log('已经是第一页')
