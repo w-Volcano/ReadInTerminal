@@ -1,6 +1,10 @@
 # 如何使用
 
 ```powershell
+node i
+```
+
+```powershell
 node startRead.js
 ```
 
