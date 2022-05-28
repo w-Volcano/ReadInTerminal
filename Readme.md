@@ -1,7 +1,7 @@
 # 如何使用
 
 ```powershell
-node i
+npm i
 ```
 
 ```powershell
