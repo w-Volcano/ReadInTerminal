@@ -19,3 +19,4 @@
 - pageSize —— 默认页面大小，打开新书时默认使用此配置
 - currentPage —— 默认当前页码，打开新书时默认使用此配置
 - clearConsole —— 翻页时是否清空控制台
+- showPercent —— 阅读进度是否显示百分比
