@@ -6,6 +6,12 @@ const r1 = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
+function rlPromisify(fn) {
+    return async (...args) => {
+        return new Promise(resolve => fn(...args, resolve));
+    };
+}
+const question = rlPromisify(r1.question.bind(r1));
 console.log('正在读取配置文件...')
 let settings = {}
 try {
@@ -86,9 +92,11 @@ r1.question(`选择你要阅读的书籍（输入书名前的数字）：`, num 
         while (flag) {
             let input
             if(settings.showPercent){
-                input = readlineSync.question(`${((his.currentPage-1)/bookDataLines.length*100).toFixed(2)+'%'}；<${settings.PageUp}>：上一页；<${settings.PageDown}>：下一页；<${settings.Jump}>：跳转\n`)
+                console.log(`${((his.currentPage-1)/bookDataLines.length*100).toFixed(2)+'%'}；<${settings.PageUp}>：上一页；<${settings.PageDown}>：下一页；<${settings.Jump}>：跳转`);
+                input = readlineSync.question(``)
             }else{
-                input = readlineSync.question(`${his.currentPage}/${bookDataLines.length}；<${settings.PageUp}>：上一页；<${settings.PageDown}>：下一页；<${settings.Jump}>：跳转\n`)
+                console.log(`${his.currentPage}/${bookDataLines.length}；<${settings.PageUp}>：上一页；<${settings.PageDown}>：下一页；<${settings.Jump}>：跳转`);
+                input = readlineSync.question(``)
             }
             let originPage = his.currentPage
             if (input.toLowerCase() == settings.PageUp) {

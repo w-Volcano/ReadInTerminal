@@ -1,14 +1,1 @@
-{
-    "bookList": "G:/touchFish/book",
-    "currentBook": "",
-    "history": [
-        
-    ],
-    "PageUp": 2,
-    "PageDown": 3,
-    "Jump": ".",
-    "pageSize": 400,
-    "currentPage": 1,
-    "clearConsole": true,
-    "showPercent": false
-}
+{"bookList":"G:/touchFish/book","currentBook":"","history":[{"book":"魔魂启临.txt","pageSize":400,"currentPage":6697,"length":8379}],"PageUp":2,"PageDown":3,"Jump":".","pageSize":400,"currentPage":1,"clearConsole":true,"showPercent":false}
