@@ -6,7 +6,6 @@ const r1 = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
-
 console.log('正在读取配置文件...')
 let settings = {}
 try {
@@ -14,7 +13,7 @@ try {
     settings = JSON.parse(tmp)
 } catch (error) {
     console.log('读取配置文件失败，请检查配置文件存在或格式');
-    return
+    process.exit(0)
 }
 let bookList = settings.bookList
 // 判断是否为绝对路径
@@ -87,18 +86,26 @@ r1.question(`选择你要阅读的书籍（输入书名前的数字）：`, num 
         while (flag) {
             let input
             if(settings.showPercent){
-                input = readlineSync.question(`${((his.currentPage-1)/bookDataLines.length*100).toFixed(2)+'%'}; ${settings.PageUp}:Page Up; ${settings.PageDown}:Page Down\n`, { encoding: 'utf-8' })
+                input = readlineSync.question(`${((his.currentPage-1)/bookDataLines.length*100).toFixed(2)+'%'}；<${settings.PageUp}>：上一页；<${settings.PageDown}>：下一页；<${settings.Jump}>：跳转\n`)
             }else{
-                input = readlineSync.question(`${his.currentPage}/${bookDataLines.length}; ${settings.PageUp}:Page Up; ${settings.PageDown}:Page Down\n`, { encoding: 'utf-8' })
+                input = readlineSync.question(`${his.currentPage}/${bookDataLines.length}；<${settings.PageUp}>：上一页；<${settings.PageDown}>：下一页；<${settings.Jump}>：跳转\n`)
             }
             let originPage = his.currentPage
             if (input.toLowerCase() == settings.PageUp) {
                 his.currentPage > 1 ? his.currentPage -= 1 : console.log('已经是第一页')
             } else if (input.toLowerCase() == settings.PageDown) {
                 his.currentPage < bookDataLines.length + 1 ? his.currentPage += 1 : console.log('已经是最后一页')
+            } else if (input.toLowerCase() == settings.Jump){
+                page = readlineSync.question(`请选择跳转的页码（1-${bookDataLines.length}）：`)
+                if(page>=1&&page<=bookDataLines.length){
+                    his.currentPage = parseInt(page)
+                }else{
+                    console.log('非法输入，退出程序');
+                    flag = false
+                }
             } else {
-                console.log('非法输入');
                 console.clear()
+                console.log('非法输入，退出程序');
                 fs.writeFileSync(path.join(__dirname,'./settings.json'), JSON.stringify(settings), 'utf-8')
                 flag = false
             }

@@ -1,18 +1,14 @@
 {
-    "bookList": "./books",
+    "bookList": "G:/touchFish/book",
     "currentBook": "",
     "history": [
-        {
-            "book": "123.txt",
-            "pageSize": 400,
-            "currentPage": 3,
-            "length": 17
-        }
+        
     ],
     "PageUp": 2,
     "PageDown": 3,
+    "Jump": ".",
     "pageSize": 400,
     "currentPage": 1,
     "clearConsole": true,
-    "showPercent": true
+    "showPercent": false
 }
