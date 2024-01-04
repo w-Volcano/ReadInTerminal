@@ -1,6 +1,8 @@
 const readline = require('readline')
 const path = require('path')
 const fs = require('fs')
+const jschardet = require('jschardet');
+const iconv = require('iconv-lite');
 const readlineSync = require('readline-sync');
 const r1 = readline.createInterface({
     input: process.stdin,
@@ -50,12 +52,20 @@ r1.question(`选择你要阅读的书籍（输入书名前的数字）：`, num 
         r1.close()
         return
     }
-    let reader = fs.createReadStream(books[num - 1], {
-        encoding: 'utf-8'
-    })
+    const buffer = fs.readFileSync(books[num - 1]);
+    // 检测编码类型
+    const detectedEncoding = jschardet.detect(buffer);
+    const detectedCharset = detectedEncoding && detectedEncoding.encoding;
+    if(!detectedCharset){
+        console.log("未检测出目标txt的编码，程序退出")
+        r1.close()
+        return
+    }
+    let reader = fs.createReadStream(books[num - 1])
     console.log(`读取${getBookName(books[num - 1])}`);
     reader.on('data', (data) => {
-        bookData += data
+        const content = iconv.decode(data,detectedCharset)
+        bookData += content
     })
     reader.on('end', () => {
         console.log('读取完毕，加载历史记录···');
@@ -114,7 +124,7 @@ r1.question(`选择你要阅读的书籍（输入书名前的数字）：`, num 
             } else {
                 console.clear()
                 console.log('非法输入，退出程序');
-                fs.writeFileSync(path.join(__dirname,'./settings.json'), JSON.stringify(settings), 'utf-8')
+                fs.writeFileSync(path.join(__dirname,'./settings.json'), JSON.stringify(settings,null,2), 'utf-8')
                 flag = false
             }
             if (originPage !== his.currentPage) {
