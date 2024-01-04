@@ -98,22 +98,23 @@ r1.question(`选择你要阅读的书籍（输入书名前的数字）：`, num 
     })
     reader.on('close', () => {
         let flag = true
+        const { keyMap } = settings;
         console.log(bookDataLines[his.currentPage - 1])
         while (flag) {
             let input
             if(settings.showPercent){
-                console.log(`${((his.currentPage-1)/bookDataLines.length*100).toFixed(2)+'%'}；<${settings.PageUp}>：上一页；<${settings.PageDown}>：下一页；<${settings.Jump}>：跳转`);
+                console.log(`${((his.currentPage-1)/bookDataLines.length*100).toFixed(2)+'%'}；<${keyMap.PageUp}>：上一页；<${keyMap.PageDown}>：下一页；<${keyMap.Jump}>：跳转`);
                 input = readlineSync.question(``)
             }else{
-                console.log(`${his.currentPage}/${bookDataLines.length}；<${settings.PageUp}>：上一页；<${settings.PageDown}>：下一页；<${settings.Jump}>：跳转`);
+                console.log(`${his.currentPage}/${bookDataLines.length}；<${keyMap.PageUp}>：上一页；<${keyMap.PageDown}>：下一页；<${keyMap.Jump}>：跳转`);
                 input = readlineSync.question(``)
             }
             let originPage = his.currentPage
-            if (input.toLowerCase() == settings.PageUp) {
+            if (input.toLowerCase() == keyMap.PageUp) {
                 his.currentPage > 1 ? his.currentPage -= 1 : console.log('已经是第一页')
-            } else if (input.toLowerCase() == settings.PageDown) {
+            } else if (input.toLowerCase() == keyMap.PageDown) {
                 his.currentPage < bookDataLines.length + 1 ? his.currentPage += 1 : console.log('已经是最后一页')
-            } else if (input.toLowerCase() == settings.Jump){
+            } else if (input.toLowerCase() == keyMap.Jump){
                 page = readlineSync.question(`请选择跳转的页码（1-${bookDataLines.length}）：`)
                 if(page>=1&&page<=bookDataLines.length){
                     his.currentPage = parseInt(page)

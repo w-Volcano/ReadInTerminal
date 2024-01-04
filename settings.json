@@ -1,10 +1,25 @@
 {
   "bookList": "./books",
   "currentBook": "",
-  "history": [],
-  "PageUp": 2,
-  "PageDown": 3,
-  "Jump": ".",
+  "history": [
+    {
+      "book": "《斗破苍穹》.txt",
+      "pageSize": 400,
+      "currentPage": 3,
+      "length": 13726
+    },
+    {
+      "book": "《一念永恒》.txt",
+      "pageSize": 100,
+      "currentPage": 78,
+      "length": 41823
+    }
+  ],
+  "keyMap": {
+    "PageUp": 2,
+    "PageDown": 3,
+    "Jump": "."
+  },
   "pageSize": 400,
   "currentPage": 1,
   "clearConsole": true,
