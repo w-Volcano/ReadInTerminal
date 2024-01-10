@@ -12,8 +12,8 @@ const settingJsonTemplate = {
     "clearTerminal": true,
     "showPercent": true
 }
+
 const rootPath = path.join(process.cwd(),"./")
-// console.log(rootPath)
 module.exports = {
     settingJsonTemplate,
     rootPath

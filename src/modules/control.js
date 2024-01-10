@@ -8,12 +8,17 @@ const clc = require('cli-color');
 const { getBookName } = require("../utils/index")
 const { updateSettings } = require("../utils");
 const { rootPath } = require("../constants");
-function control(settings,books){
-    readlineSync.setEncoding('utf8')
+function control(settings, books){
     const r1 = readline.createInterface({
         input: process.stdin,
-        output: process.stdout
+        output: process.stdout,
     })
+    function rlPromisify(fn) {
+        return async (...args) => {
+            return new Promise(resolve => fn(...args, resolve));
+        };
+    }
+    const question = rlPromisify(r1.question.bind(r1));
     if(books.length===0){
         console.log(clc.underline(`当前书库未发现任何书籍，请先添加书籍(txt)`));
         process.exit(0)
@@ -58,7 +63,7 @@ function control(settings,books){
                     console.log(clc.bgWhite.black('检测到页面大小被修改，更新当前页码为'+his.currentPage));
                     his.length = bookDataLines.length
                 }
-                console.log(`加载历史记录完毕，现在《${clc.blue.bold(getBookName(books[num - 1]))}》第${clc.red.bold(his.currentPage)}页，页面大小${clc.yellow.bold(his.pageSize)}字，共${clc.green.bold(bookDataLines.length)}页`);
+                console.log(`加载历史记录完毕，当前《${clc.blue.bold(getBookName(books[num - 1]))}》第${clc.red.bold(his.currentPage)}页，页面大小${clc.yellow.bold(his.pageSize)}字，共${clc.green.bold(bookDataLines.length)}页`);
             } else {
                 for (let i = 0; i < bookData.length / settings.pageSize; i++) {
                     bookDataLines.push(bookData.substr(i * settings.pageSize, settings.pageSize))
@@ -70,11 +75,11 @@ function control(settings,books){
                     length:bookDataLines.length
                 })
                 his = settings.history[settings.history.length-1]
-                console.log(`未找到历史记录，已创建，现在《${clc.blue.bold(getBookName(books[num - 1]))}》第${clc.red.bold(his.currentPage)}页，页面大小${clc.yellow.bold(his.pageSize)}字，共${clc.green.bold(bookDataLines.length)}页`);
+                console.log(`未找到历史记录，已创建，当前《${clc.blue.bold(getBookName(books[num - 1]))}》第${clc.red.bold(his.currentPage)}页，页面大小${clc.yellow.bold(his.pageSize)}字，共${clc.green.bold(bookDataLines.length)}页`);
             }
             // console.log(bookDataLines[bookDataLines.length-1]);
         })
-        reader.on('close', () => {
+        reader.on('close', async () => {
             let flag = true
             const { keyMap } = settings;
             console.log(bookDataLines[his.currentPage - 1])
@@ -83,14 +88,14 @@ function control(settings,books){
                 const percent = ((his.currentPage-1)/bookDataLines.length*100).toFixed(2)+'%'
                 const pageProgress = `${his.currentPage}/${bookDataLines.length}`
                 console.log(`${settings.showPercent?clc.blue.bold(percent):""}；${clc.blue.bold(pageProgress)}；<${clc.red.bold(keyMap.PageUp)}>：上一页；<${clc.yellow.bold(keyMap.PageDown)}>：下一页；<${clc.green.bold(keyMap.Jump)}>：跳转`);
-                input = readlineSync.question(``)
+                input = await question(``)
                 let originPage = his.currentPage
                 if (input.toLowerCase() == keyMap.PageUp) {
                     his.currentPage > 1 ? his.currentPage -= 1 : console.log('已经是第一页')
                 } else if (input.toLowerCase() == keyMap.PageDown) {
                     his.currentPage < bookDataLines.length + 1 ? his.currentPage += 1 : console.log('已经是最后一页')
                 } else if (input.toLowerCase() == keyMap.Jump){
-                    page = readlineSync.question(`请选择跳转的页码（1-${bookDataLines.length}）：`)
+                    page = await question(`请选择跳转的页码（1-${bookDataLines.length}）：`)
                     if(page>=1&&page<=bookDataLines.length){
                         his.currentPage = parseInt(page)
                     }else{
@@ -106,6 +111,9 @@ function control(settings,books){
                 if (originPage !== his.currentPage) {
                     if(settings.clearTerminal)console.clear()
                     console.log(bookDataLines[his.currentPage - 1]);
+                }
+                if(!flag){
+                    process.exit(0)
                 }
             }
         })

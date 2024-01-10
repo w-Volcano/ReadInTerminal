@@ -2,11 +2,9 @@ const clc = require('cli-color');
 const fs = require('fs')
 const path = require('path')
 const { checkFileExists, updateSettings, isFile, createDir} =require("../utils");
-const { rootPath } =require("../constants");
-const { execFile } = require('child_process');
+const { rootPath} =require("../constants");
 
 function init(){
-    execFile('chcp',['65001']);
     // 初始化1：读取或释放释放配置文件
     console.log('正在读取配置文件...')
     let settings = {}
