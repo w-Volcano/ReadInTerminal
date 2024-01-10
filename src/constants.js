@@ -12,8 +12,15 @@ const settingJsonTemplate = {
     "clearTerminal": true,
     "showPercent": true
 }
-
-const rootPath = path.join(path.dirname(process.execPath),"./")
+const mode = process.argv[2];
+let prePath = path.dirname(process.execPath)
+if(mode === '--mode') {
+    const parameter = process.argv[3];
+    if(parameter === 'development') {
+        prePath = __dirname;
+    }
+}
+const rootPath = path.join(prePath,"./")
 module.exports = {
     settingJsonTemplate,
     rootPath

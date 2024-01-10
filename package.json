@@ -4,7 +4,7 @@
   "description": "",
   "main": "startRead.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node ./src/index.js --mode development",
     "build": "pkg . --target win --output build/readInTerminal.exe"
   },
   "keywords": [],
