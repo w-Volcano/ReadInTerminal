@@ -13,7 +13,7 @@ const settingJsonTemplate = {
     "showPercent": true
 }
 
-const rootPath = path.join(process.cwd(),"./")
+const rootPath = path.join(path.dirname(process.execPath),"./")
 module.exports = {
     settingJsonTemplate,
     rootPath
