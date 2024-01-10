@@ -1,25 +1,38 @@
 # 如何使用
 
-1. `npm i`
-2. 在`settings.json`配置书库路径，绝对路径和相对路径皆可
-3. 将要阅读的书籍放入书库中（暂时只支持TXT文件）
-4. `node startRead.js`
-5. 按照提示进行阅读
+## 直接使用
 
-> 如果出现中文乱码问题，请尝试在控制台执行`chcp 65001`，切换控制台编码为`utf-8`。
+1. `npm i`
+2. `npm run start`
+3. 按照提示进行阅读
+4. `npm run build`，打包为`exe`文件
+
+## 可执行文件(exe)使用
+
+1. 打开`exe`文件所在终端
+2. `.\readInTerminal.exe`
+3. 首次使用会自动释放配置文件和书库
+4. 可配合环境变量在任意终端下使用
 
 # 配置文件
-
-- bookList —— 存放书本的书库路径（文件夹）
-- currentBook —— 当前阅读书籍
-- history —— 历史记录
-  - book —— 书名
-  - pageSize ——页面大小
-  - currentPage ——当前页码
-- PageUp —— 上一页按键
-- PageDwon —— 下一页按键
-- Jump —— 跳转页码按键
-- pageSize —— 默认页面大小，打开新书时默认使用此配置
-- currentPage —— 默认当前页码，打开新书时默认使用此配置
-- clearConsole —— 翻页时是否清空控制台
-- showPercent —— 阅读进度是否显示百分比
+```json
+{
+  "bookList": "./books",  // 存放书本的书库路径（文件夹），目前只支持txt文件
+  "history": [            // 历史记录
+    {
+      "book": "书名",
+      "pageSize": "页面大小",
+      "currentPage": "当前页码"
+    }
+  ],  
+  "keyMap": {             // 按键映射
+    "PageUp": "a",        // 上一页按键
+    "PageDown": "d",      // 下一页按键
+    "Jump": "."           // 跳转页码按键
+  },
+  "pageSize": 400,        // 页面大小：当前页面字符数量，打开新书时默认使用此配置
+  "currentPage": 1,       // 默认从这一页开始，打开新书时默认使用此配置
+  "clearTerminal": true,  // 翻页时是否自动清空终端
+  "showPercent": true     // 阅读进度是否显示百分比
+}
+```
