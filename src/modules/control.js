@@ -28,8 +28,9 @@ function control(settings, books){
 	}
 	let bookData = "";
 	let bookDataLines = [];
-	r1.question("选择你要阅读的书籍（输入书名前的数字）：", num => {
-		if(typeof num === "number" && (num < 1 || num > books.length)){
+	r1.question("选择你要阅读的书籍（输入书名前的数字）：", _num => {
+		const num = parseInt(_num);
+		if(isNaN(num) || (num < 1 || num > books.length)){
 			console.log(clc.red("非法输入，退出程序..."));
 			r1.close();
 			return;

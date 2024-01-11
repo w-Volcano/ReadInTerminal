@@ -1,4 +1,4 @@
-const {settingJsonTemplate} = require("../constants");
+const { settingJsonTemplate } = require("../constants");
 const fs = require("fs");
 function checkFileExists(_path) {
 	try {
