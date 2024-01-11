@@ -18,6 +18,7 @@
   },
   "bin": "./src/index.js",
   "devDependencies": {
+    "eslint": "^8.56.0",
     "pkg": "^5.8.1"
   }
 }
