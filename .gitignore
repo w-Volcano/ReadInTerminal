@@ -1,5 +1,5 @@
 node_modules
 .idea
-books/*
-settings.json
+src/books/*
+src/settings.json
 build

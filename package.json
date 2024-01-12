@@ -18,6 +18,8 @@
   },
   "bin": "./src/index.js",
   "devDependencies": {
+    "@types/cli-color": "^2.0.6",
+    "@types/node": "^20.11.0",
     "eslint": "^8.56.0",
     "pkg": "^5.8.1"
   }
